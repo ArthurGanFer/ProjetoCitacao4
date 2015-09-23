@@ -5,7 +5,6 @@
  */
 package com.br.citacao.model.dao;
 
-import com.br.citacao.controller.Controller;
 import com.br.citacao.model.Autor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,23 +19,23 @@ import java.util.logging.Logger;
  *
  * @author 1147106
  */
-public class AutorDAO implements GenericDAO<Autor>{
+public class AutorDAO implements GenericDAO<Autor> {
 
     private Connection conn;
 
     public AutorDAO() {
         conn = ConnectionDB.getInstance();
     }
-    
+
     @Override
     public boolean insert(Autor autor) {
-        boolean resp = false;    
+        boolean resp = false;
         String sql = "INSERT INTO autor(nome) VALUES(?)";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, autor.getNome());
             int resposta = ps.executeUpdate();
-            if(resposta == 0){
+            if (resposta == 0) {
                 System.out.println("Erro na inserção do autor!");
             } else {
                 System.out.println("Autor inserido com sucesso!");
@@ -44,7 +43,7 @@ public class AutorDAO implements GenericDAO<Autor>{
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return resp;
     }
@@ -56,24 +55,24 @@ public class AutorDAO implements GenericDAO<Autor>{
         String sql = "SELECT * FROM autor";
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            
+
             //3. Executa a query
             ResultSet rs = ps.executeQuery();
-            
+
             //4. Mostrar os resultados
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("id_autor");
                 String nome = rs.getString("nome");
                 Autor a = new Autor(id, nome);
                 autores.add(a);
             }
-            
+
             //5. Fechar tudo
             ps.close();
             rs.close();
-            
+
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return autores;
     }
@@ -87,7 +86,7 @@ public class AutorDAO implements GenericDAO<Autor>{
             ps.setString(1, autor.getNome());
             ps.setInt(2, autor.getId_autor());
             int resposta = ps.executeUpdate();
-            if(resposta == 0){
+            if (resposta == 0) {
                 System.out.println("Erro na atualização do Autor");
             } else {
                 System.out.println("Autor atualizado com sucesso!");
@@ -95,7 +94,7 @@ public class AutorDAO implements GenericDAO<Autor>{
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return resp;
     }
@@ -108,7 +107,7 @@ public class AutorDAO implements GenericDAO<Autor>{
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, autor.getId_autor());
             int resposta = ps.executeUpdate();
-            if(resposta == 0){
+            if (resposta == 0) {
                 System.out.println("Erro ao remover o autor");
             } else {
                 System.out.println("Autor removido com sucesso!");
@@ -116,9 +115,9 @@ public class AutorDAO implements GenericDAO<Autor>{
             }
             ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         return resp;
     }
-    
+
 }

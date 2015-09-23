@@ -17,7 +17,8 @@
     <body>
         <h1>CRUD para AUTORES</h1>
         <h2>CREATE</h2>
-        <form>
+        <form action="Controller" method="POST">
+            <input type="hidden" name="command" value="autor.inserir">
             <p>Nome: <input type="text" name="nome_autor" /></p>
             <p><input type="submit" value="INSERIR"/></p>
         </form>
@@ -33,20 +34,32 @@
         %>
         <hr>
         <h2>UPDATE</h2>
-        <form>
+        <form action="Controller" method="POST">
             <select name="select_autor_update">
-                <option value="1">Autor 1</option>
+                <option value="0">Selecione...</option>
+                <%
+                    for (Autor autor : autores) {
+                        out.print("<option value='" + autor.getId_autor() + "'>" + autor.getNome() + "</option>");
+                    }
+                %>
             </select>
-            <p>Nome: <input type="text" name="nome_autor" /></p>
+            <input type="hidden" name="command" value="autor.atualizar">
+            <p>Novo nome: <input type="text" name="nome_autor" /></p>
             <p><input type="submit" value="ATUALIZAR"/></p>
         </form>
         <hr>
 
         <h2>DELETE</h2>
-        <form>
+        <form action="Controller" method="POST">
             <select name="select_autor_delete">
-                <option value="1">Autor 1</option>
+                <option value="0">Selecione...</option>
+                <%
+                    for (Autor autor : autores) {
+                        out.print("<option value='" + autor.getId_autor() + "'>" + autor.getNome() + "</option>");
+                    }
+                %>
             </select>
+            <input type="hidden" name="command" value="autor.deletar">
             <p><input type="submit" value="REMOVER"/></p>
         </form>
     </body>
